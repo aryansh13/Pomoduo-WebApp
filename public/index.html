@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomoduo - Study With Me</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#FF6347">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #F9F5F1;
+      color: #292524;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      max-width: 480px;
+    }
+    .logo {
+      width: 120px;
+      height: 120px;
+      background-color: #FF6347;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      color: #FF6347;
+    }
+    p {
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #FF6347;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">PD</div>
+    <h1>Pomoduo</h1>
+    <p>Study With Me</p>
+    <p>This application works offline. If you're seeing this page, it means you're currently offline and the app is loading.</p>
+    <a href="/" class="button">Reload Application</a>
+  </div>
+  <script>
+    // Register service worker untuk pengalaman offline
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+          console.error('Service worker registration failed:', error);
+        });
+      });
+    }
+  </script>
+</body>
+</html> 

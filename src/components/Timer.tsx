@@ -5,12 +5,20 @@ import { Button } from './ui/button';
 import { Progress } from './ui/progress';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Add interface for WebKit Audio Context
+interface WindowWithWebkitAudio extends Window {
+  webkitAudioContext: typeof AudioContext;
+}
+
 // Create utility functions since we can't directly import from public
 const createNotificationSound = () => {
   if (typeof window === 'undefined') return null;
   
   try {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // Use type assertion to fix TypeScript error
+    const AudioContextClass = window.AudioContext || 
+      (window as unknown as WindowWithWebkitAudio).webkitAudioContext;
+    const audioContext = new AudioContextClass();
     
     return () => {
       // Create oscillator for first tone
@@ -179,7 +187,8 @@ export const Timer: React.FC<TimerProps> = ({ settings: userSettings }) => {
     vibrate();
     
     // Show browser notification if permission granted
-    if (Notification && Notification.permission === 'granted') {
+    if (typeof window !== 'undefined' && 'Notification' in window && 
+        Notification.permission === 'granted') {
       new Notification(
         `${mode === 'pomodoro' ? 'Pomodoro completed!' : 'Break time is over!'}`, 
         {
@@ -279,7 +288,8 @@ export const Timer: React.FC<TimerProps> = ({ settings: userSettings }) => {
   
   // Request notification permission
   const requestNotificationPermission = () => {
-    if (Notification && Notification.permission !== 'granted') {
+    if (typeof window !== 'undefined' && 'Notification' in window && 
+        Notification.permission !== 'granted') {
       Notification.requestPermission();
     }
   };
